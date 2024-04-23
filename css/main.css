@@ -167,6 +167,42 @@ li:hover {
    margin-left: 10px;
 }
 
+/* Side navs */
+
+.left-menu {
+   background-color: #111;
+   width: 0;
+   height: 100%;
+   position: fixed;
+   z-index: 1;
+   left: 0;
+   top: 0;
+   overflow-x: hidden;
+   transition: 0.5s;
+   padding-top: 2rem;
+}
+
+.left-menu a {
+   padding: 0.5rem 0.5rem 0.5rem 1.5rem;
+   text-decoration: none;
+   font-size: 1.2rem;
+   color: #818181;
+   display: block;
+   transition: 0.3s;
+}
+ 
+.menu a:hover {
+   color: #ffffff;
+}
+
+@media (max-width: 768px) {
+   .sidenav a {
+     color: #ffffff;
+   }
+}
+
+/* Side navs */
+
 ::-webkit-scrollbar {
    width: 1rem;
    border-radius: 2rem;
