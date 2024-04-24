@@ -1,4 +1,5 @@
 <!-- For testing and structure--->
+<!-- test.html -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,22 +12,26 @@
 </head>
 
 <body>
-   <header>
-      <nav class="header-box">
-         <a class="a1" href="#" onclick="toggleSideMenu('left-menuId')">☰</a> 
-      </nav>
-   </header>
    <nav>
       <nav>
-      <div class="left-menu" id="left-menuId"></div>
-      <div class="right-menu"></div>
-   </nav>
-   
-   <main class="box">
-      <div class="box">Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi debitis animi sunt tempora!
-         Enim fuga exercitationem voluptatem optio! Beatae, dolor aperiam. Tempora inventore distinctio architecto
-         facere omnis voluptates labore aliquam?</div>
-   </main>
+         <div class="left-menu" id="leftMenu"></div>
+         <div class="right-menu" id="rightMenu"></div>
+      </nav>
+      <div id="main">
+         <header>
+            <nav class="header-box">
+               <a class="a1" href="#" onclick="toggleSide('leftMenu')">☰</a>
+               <a class="a2" href="#" onclick="toggleSide('rightMenu')">☰</a>
+            </nav>
+         </header>
+
+         <main class="box">
+            <div class="box">Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi debitis animi sunt
+               tempora!
+               Enim fuga exercitationem voluptatem optio! Beatae, dolor aperiam. Tempora inventore distinctio architecto
+               facere omnis voluptates labore aliquam?</div>
+         </main>
+      </div>
 </body>
 
 </html>

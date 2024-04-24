@@ -44,7 +44,6 @@ function playAudio(buffer, audioContext, initAnalyzer) {
 
 function analyzeAudio(analyzer) {
 
-
 }
 
 function calculateAmplitude() { }
