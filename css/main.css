@@ -175,35 +175,49 @@ li:hover {
 
 .left-menu,
 .right-menu {
-   background-color: #111;
    width: 0;
    height: 100%;
    position: fixed;
-   z-index: 1;
+   z-index: 1000;
    top: 0;
    overflow-x: hidden;
    transition: 0.5s;
-   padding-top: 2rem;
 }
 
 .left-menu {
+   background-color: #f09edd;
    left: 0;
 }
 
 .right-menu {
+   background-color: #f5cbcb;
    right: 0;
+}
+
+@media (max-width: 768px) {
+   .left-menu,
+   .right-menu {
+      transform: translateX(1);
+      width: 100%;
+   }
 }
 
 .content-shift-left {
    transition: margin-left 0.5s;
-   margin-left: 250px;
+   margin-left: 15%;
 }
 
 .content-shift-right {
    transition: margin-right 0.5s;
-   margin-right: 250px;
+   margin-right: 15%;
 }
 
+.content-shift-both {
+   margin-left: 15%;
+   margin-right: 15%;
+   transition: margin-center 0.5s;
+   width: calc(100% - 30%);
+}
 
 .left-menu a {
    padding: 0.5rem 0.5rem 0.5rem 1.5rem;
@@ -212,6 +226,7 @@ li:hover {
    color: #818181;
    display: block;
    transition: 0.3s;
+
 }
 
 .menu a:hover {

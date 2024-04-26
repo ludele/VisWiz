@@ -8,7 +8,7 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>VisWiz</title>
    <link rel="stylesheet" href="./css/main.css">
-   <script src="js/scripts/main.js"></script>
+   <script type="module" src="js/scripts/main.js" defer></script>
 </head>
 
 <body>
@@ -17,21 +17,21 @@
          <div class="left-menu" id="leftMenu"></div>
          <div class="right-menu" id="rightMenu"></div>
       </nav>
-      <div id="main">
+      <main id="main">
          <header>
             <nav class="header-box">
                <a class="a1" href="#" onclick="toggleSide('leftMenu')">☰</a>
                <a class="a2" href="#" onclick="toggleSide('rightMenu')">☰</a>
             </nav>
          </header>
-
-         <main class="box">
+         <section class="box">
             <div class="box">Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi debitis animi sunt
                tempora!
                Enim fuga exercitationem voluptatem optio! Beatae, dolor aperiam. Tempora inventore distinctio architecto
                facere omnis voluptates labore aliquam?</div>
-         </main>
-      </div>
+         </section>
+         <div id="visualization"></div>
+      </main>
 </body>
 
 </html>
