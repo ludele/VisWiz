@@ -1,7 +1,0 @@
-function createColorScheme() {
-
-}
-
-function changeSoundSource() {
-
-}

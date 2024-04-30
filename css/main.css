@@ -185,22 +185,20 @@ li:hover {
 }
 
 .left-menu {
-   background-color: #f09edd;
    left: 0;
 }
 
 .right-menu {
-   background-color: #f5cbcb;
    right: 0;
 }
 
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
    .left-menu,
    .right-menu {
       transform: translateX(1);
       width: 100%;
    }
-}
+} */
 
 .content-shift-left {
    transition: margin-left 0.5s;
@@ -242,8 +240,8 @@ li:hover {
 /* Side navs */
 
 ::-webkit-scrollbar {
-   width: 1rem;
-   border-radius: 2rem;
+   width: 0.5rem;
+   border-radius: 1rem;
 }
 
 ::-webkit-scrollbar-track {
