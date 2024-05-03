@@ -50,23 +50,3 @@ function calculateAmplitude() { }
 function calculateFrequenzy() { }
 function calculateWaveform() { }
 
-document.getElementById('audioFile').addEventListener('change', function (event) {
-   const file = event.target.files[0];
-   if (!file) {
-      return;
-   }
-
-   const audioContext = new AudioContext();
-   const reader = new FileReader();
-
-   reader.onload = function (fileEvent) {
-      const arrayBuffer = fileEvent.target.result;
-      audioContext.decodeAudioData(arrayBuffer, function (buffer) {
-         playAudio(buffer, audioContext);
-      }, function (e) {
-         console.log('Error decoding file', e);
-      });
-   };
-
-   reader.readAsArrayBuffer(file);
-});

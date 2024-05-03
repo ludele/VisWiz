@@ -125,7 +125,8 @@ label {
 
 textarea,
 input {
-   font-size: 1.15rem;
+   width: 100%;
+   font-size: 1rem;
    resize: none;
    overflow: hidden;
    padding: 0.5rem;

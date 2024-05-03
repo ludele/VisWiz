@@ -125,6 +125,60 @@ export function generateSettingsContent(settings) {
    return settingsContainer;
 }
 
+export function saveSettingsProfilesToLocalStorage(profiles) {
+   localStorage.setItem('settingsProfiles', JSON.stringify(profiles));
+}
+
+export function loadSettingsProfilesFromLocalStorage() {
+   const profiles = localStorage.getItem('settingsProfiles');
+   return profiles ? JSON.parse(profiles) : [];
+}
+
+export function addSettingsProfile(profiles, profile) {
+   profiles.push(profile);
+   saveSettingsProfilesToLocalStorage(profiles);
+}
+
+export function removeSettingsProfile(profiles, profileId) {
+   const updatedProfiles = profiles.filter(profile => profile.id !== profileId);
+   saveSettingsProfilesToLocalStorage(updatedProfiles);
+}
+
+export function updateSettingsProfile(profiles, updatedProfile) {
+   const index = profiles.findIndex(profile => profile.id === updatedProfile.id);
+   if (index !== -1) {
+      profiles[index] = updatedProfile;
+      saveSettingsProfilesToLocalStorage(profiles);
+   }
+}
+
+export function saveSettingsAsJSON(settings) {
+   const settingsJSON = JSON.stringify(settings);
+   const blob = new Blob([settingsJSON], { type: 'application/json' });
+   const url = URL.createObjectURL(blob);
+   const a = document.createElement('a');
+   a.href = url;
+   a.download = 'settings.json';
+   document.body.appendChild(a);
+   a.click();
+   window.URL.revokeObjectURL(url);
+}
+
+export function loadSettingsFromJSON(file) {
+   return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = function(event) {
+         try {
+            const settings = JSON.parse(event.target.result);
+            resolve(settings);
+         } catch (error) {
+            reject(error);
+         }
+      };
+      reader.readAsText(file);
+   });
+}
+
 function changeVisualizationColorScheme() {
 
 }
