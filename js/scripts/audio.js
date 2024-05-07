@@ -36,17 +36,32 @@ function playAudio(buffer, audioContext, initAnalyzer) {
    // const analyzer = audioContext.createAnalyser();
    source.connect(initAnalyzer);
    analyser.connect(audioContext.destination);
-   
+
    source.start();
 
    analyzeAudio(initAnalyzer)
 }
 
 function analyzeAudio(analyzer) {
+   const dataArray = new Uint8Array(analyzer.frequencyBinCount);
+   analyzer.getByteFrequencyData(dataArray);
 
+   let sum = 0;
+   for (let i = 0; i < dataArray.length; i++) {
+      sum += dataArray[i];
+   }
+   const averageAmplitude = sum / dataArray.length;
+   console.log("Average amplitude:", averageAmplitude);
 }
 
-function calculateAmplitude() { }
+navigator.mediaDevices.getUserMedia({ audio: true })
+   .then(function (stream) {
+      // Success
+   })
+   .catch(function (err) {
+      console.error('Error accessing microphone:', err);
+   });
+
 function calculateFrequenzy() { }
 function calculateWaveform() { }
 
