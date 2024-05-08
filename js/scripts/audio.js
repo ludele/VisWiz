@@ -62,6 +62,7 @@ navigator.mediaDevices.getUserMedia({ audio: true })
       console.error('Error accessing microphone:', err);
    });
 
+function calculateAmplitude() { }
 function calculateFrequenzy() { }
 function calculateWaveform() { }
 

@@ -1,8 +1,58 @@
 import * as options from "./settings.js"
 
+function visualizeAudio(buffer, audioContext) {
+   const analyser = audioContext.createAnalyser();
+   analyser.fftSize = 2048;
+   const dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+   const source = audioContext.createBufferSource();
+   source.buffer = buffer;
+   source.connect(analyser);
+   analyser.connect(audioContext.destination);
+
+   source.start();
+
+   function draw() {
+      const canvas = document.getElementById("myCanvas");
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, WIDTH, HEIGHT);
+
+      ctx.fillStyle = "rgb(200 200 200)";
+      ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = "rbg(0 0 0)";
+      ctx.beginPath();
+
+      const sliceWidth = WIDTH / bufferLength;
+      let x = 0;
+
+      for (let i = 0; i < bufferLength; i++) {
+         const v = dataArray[i] / 128.0;
+         const y = v * (HEIGHT / 2);
+
+         if (i === 0) {
+            ctx.moveTo(x, y);
+         } else {
+            ctx.lineTo(x, y);
+         }
+
+         x += sliceWidth;
+      }
+
+      ctx.lineTo(WIDTH, HEIGHT / 2);
+      ctx.stroke();
+
+      requestAnimationFrame(draw);
+   }
+
+   draw()
+}
+
 function generateCanvas() {
    var visualizationBox = document.getElementById("visualization");
    const canvas = document.createElement("canvas");
+   canvas.classList.add("myCanvas");
    visualizationBox.appendChild(canvas);
 }
 
@@ -48,7 +98,7 @@ function createStructure() {
    leftMenu.appendChild(optionsContainer);
    rightMenu.appendChild(generalSettings);
 
-   
+
    const profiles = options.loadSettingsProfilesFromLocalStorage();
    const profileButtons = generateProfileButtons(profiles);
    leftMenu.appendChild(profileButtons);
@@ -78,7 +128,7 @@ document.getElementById('audioFile').addEventListener('change', function (event)
    reader.onload = function (fileEvent) {
       const arrayBuffer = fileEvent.target.result;
       audioContext.decodeAudioData(arrayBuffer, function (buffer) {
-         playAudio(buffer, audioContext);
+         visualizeAudio(buffer, audioContext);
       }, function (e) {
          console.log('Error decoding file', e);
       });
@@ -86,3 +136,5 @@ document.getElementById('audioFile').addEventListener('change', function (event)
 
    reader.readAsArrayBuffer(file);
 });
+
+draw();
