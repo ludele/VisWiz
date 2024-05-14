@@ -76,11 +76,18 @@ function visualizeAudio() {
     draw();
 }
 
+function updateCanvasSize() {
+    const canvas = document.getElementById("myCanvas");
+    canvas.width = options.visOptions.canvasWidth.value;
+    canvas.height = options.visOptions.canvasHeight.value;
+}
+
 function generateCanvas() {
     const visualizationBox = document.getElementById("visualization");
     const canvas = document.createElement("canvas");
-    canvas.id = "myCanvas"; // Ensure the ID is correctly set
+    canvas.id = "myCanvas";
     visualizationBox.appendChild(canvas);
+    updateCanvasSize();
 }
 
 function generateProfileButtons(profiles) {
@@ -172,7 +179,6 @@ function createStructure() {
     const profileButtons = generateProfileButtons(profiles);
     leftMenu.appendChild(profileButtons);
 
-    // Create the buttons and slider to control the visualization
     const playButton = document.createElement("button");
     playButton.textContent = "Play";
     playButton.id = "playButton";

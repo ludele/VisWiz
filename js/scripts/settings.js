@@ -56,7 +56,20 @@ export const visOptions = {
       min: 256,
       max: 4096,
       step: 256
+   },
+   canvasWidth: {
+      value: 800,
+      min: 100,
+      max: 1920,
+      step: 1
+   },
+   canvasHeight: {
+      value: 400,
+      min: 100,
+      max: 1080,
+      step: 1
    }
+
 };
 
 export const generalSettings = {
@@ -86,57 +99,57 @@ export function generateSettingsContent(settings) {
    settingsContainer.classList.add("box")
 
    for (const key in settings) {
-       const setting = settings[key];
-       let settingsElement = document.createElement("li");
-       settingsElement.classList.add("box")
-       let label = document.createElement("label");
-       label.textContent = key + ": ";
-       settingsElement.appendChild(label);
+      const setting = settings[key];
+      let settingsElement = document.createElement("li");
+      settingsElement.classList.add("box")
+      let label = document.createElement("label");
+      label.textContent = key + ": ";
+      settingsElement.appendChild(label);
 
-       if (typeof setting.value === 'number') {
-           let input = document.createElement("input");
-           input.type = "text";
-           input.value = setting.value;
+      if (typeof setting.value === 'number') {
+         let input = document.createElement("input");
+         input.type = "text";
+         input.value = setting.value;
 
-           let slider = document.createElement("input");
-           slider.type = "range";
-           slider.value = setting.value;
-           slider.min = setting.min;
-           slider.max = setting.max;
-           slider.step = setting.step;
+         let slider = document.createElement("input");
+         slider.type = "range";
+         slider.value = setting.value;
+         slider.min = setting.min;
+         slider.max = setting.max;
+         slider.step = setting.step;
 
-           slider.oninput = function () {
-               input.value = slider.value;
-               settings[key].value = parseFloat(slider.value);
-           };
+         slider.oninput = function () {
+            input.value = slider.value;
+            settings[key].value = parseFloat(slider.value);
+         };
 
-           input.onchange = function () {
-               slider.value = input.value;
-               settings[key].value = parseFloat(input.value);
-           };
+         input.onchange = function () {
+            slider.value = input.value;
+            settings[key].value = parseFloat(input.value);
+         };
 
-           settingsElement.appendChild(input);
-           settingsElement.appendChild(slider);
-       } else if (Array.isArray(setting.options)) {
-           let select = document.createElement("select");
-           setting.options.forEach(option => {
-               let optionElement = document.createElement("option");
-               optionElement.value = option;
-               optionElement.text = option;
-               select.appendChild(optionElement);
-           });
-           select.value = setting.value;
-           select.onchange = function () {
-               settings[key].value = select.value;
-           };
-           settingsElement.appendChild(select);
-       } else {
-           let staticValue = document.createElement("span");
-           staticValue.textContent = setting.toString();
-           settingsElement.appendChild(staticValue);
-       }
+         settingsElement.appendChild(input);
+         settingsElement.appendChild(slider);
+      } else if (Array.isArray(setting.options)) {
+         let select = document.createElement("select");
+         setting.options.forEach(option => {
+            let optionElement = document.createElement("option");
+            optionElement.value = option;
+            optionElement.text = option;
+            select.appendChild(optionElement);
+         });
+         select.value = setting.value;
+         select.onchange = function () {
+            settings[key].value = select.value;
+         };
+         settingsElement.appendChild(select);
+      } else {
+         let staticValue = document.createElement("span");
+         staticValue.textContent = setting.toString();
+         settingsElement.appendChild(staticValue);
+      }
 
-       settingsContainer.appendChild(settingsElement);
+      settingsContainer.appendChild(settingsElement);
    }
 
    return settingsContainer;

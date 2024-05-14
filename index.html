@@ -1,3 +1,5 @@
+<!-- For testing and structure--->
+<!-- test.html -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,23 +8,27 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>VisWiz</title>
    <link rel="stylesheet" href="./css/main.css">
-   <!-- Possibly the scripts needed may 
-   be handled by another script that loads them in when needed -->
-   <script type="module" src="js/scripts/main.js"></script>
+   <script type="module" src="./js/scripts/main.js" defer></script>
+   <script src="./js/utils/menus.js" defer></script>
 </head>
 
 <body>
-   <header>
-      <nav>
-      </nav>
-   </header>
    <nav>
-      <div class="left-menu" id="left-menuId"></div>
-      <div class="right-menu" id="left-menuId"></div>
-   </nav>
-   <main>
-      <div id="visualization"></div>
-   </main>
+      <nav>
+         <div class="left-menu" id="leftMenu"></div>
+         <div class="right-menu" id="rightMenu"></div>
+      </nav>
+      <main id="main">
+         <header>
+            <nav class="header-box">
+               <a class="a1" href="#" onclick="toggleSide('leftMenu')">☰</a>
+               <a class="a2" href="#" onclick="toggleSide('rightMenu')">☰</a>
+            </nav>
+         </header>
+         <section class="box">
+            <div id="visualization"></div>
+         </section>
+      </main>
 </body>
 
 </html>
