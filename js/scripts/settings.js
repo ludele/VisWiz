@@ -4,6 +4,10 @@ export const visOptions = {
    // barColor: function (barHeight) {
    //    return `rgb(${barHeight + 100}, 50, 50)`;
    // },
+   mode: {
+      value: 'bar',
+      options: ['bar', 'spectrogram']
+   },
    Red: {
       value: 230,
       min: 0,
@@ -22,7 +26,7 @@ export const visOptions = {
       max: 255,
       step: 1
    },
-   
+
    barWidth: {
       value: 5,
       min: 1,
@@ -82,44 +86,57 @@ export function generateSettingsContent(settings) {
    settingsContainer.classList.add("box")
 
    for (const key in settings) {
-      const setting = settings[key];
-      let settingsElement = document.createElement("li");
-      settingsElement.classList.add("box")
-      let label = document.createElement("label");
-      label.textContent = key + ": ";
-      settingsElement.appendChild(label);
+       const setting = settings[key];
+       let settingsElement = document.createElement("li");
+       settingsElement.classList.add("box")
+       let label = document.createElement("label");
+       label.textContent = key + ": ";
+       settingsElement.appendChild(label);
 
-      if (typeof setting.value === 'number') {
-         let input = document.createElement("input");
-         input.type = "text";
-         input.value = setting.value;
+       if (typeof setting.value === 'number') {
+           let input = document.createElement("input");
+           input.type = "text";
+           input.value = setting.value;
 
-         let slider = document.createElement("input");
-         slider.type = "range";
-         slider.value = setting.value;
-         slider.min = setting.min;
-         slider.max = setting.max;
-         slider.step = setting.step;
+           let slider = document.createElement("input");
+           slider.type = "range";
+           slider.value = setting.value;
+           slider.min = setting.min;
+           slider.max = setting.max;
+           slider.step = setting.step;
 
-         slider.oninput = function () {
-            input.value = slider.value;
-            settings[key].value = parseFloat(slider.value);
-         };
+           slider.oninput = function () {
+               input.value = slider.value;
+               settings[key].value = parseFloat(slider.value);
+           };
 
-         input.onchange = function () {
-            slider.value = input.value;
-            settings[key].value = parseFloat(input.value);
-         };
+           input.onchange = function () {
+               slider.value = input.value;
+               settings[key].value = parseFloat(input.value);
+           };
 
-         settingsElement.appendChild(input);
-         settingsElement.appendChild(slider);
-      } else {
-         let staticValue = document.createElement("span");
-         staticValue.textContent = setting.toString();
-         settingsElement.appendChild(staticValue);
-      }
+           settingsElement.appendChild(input);
+           settingsElement.appendChild(slider);
+       } else if (Array.isArray(setting.options)) {
+           let select = document.createElement("select");
+           setting.options.forEach(option => {
+               let optionElement = document.createElement("option");
+               optionElement.value = option;
+               optionElement.text = option;
+               select.appendChild(optionElement);
+           });
+           select.value = setting.value;
+           select.onchange = function () {
+               settings[key].value = select.value;
+           };
+           settingsElement.appendChild(select);
+       } else {
+           let staticValue = document.createElement("span");
+           staticValue.textContent = setting.toString();
+           settingsElement.appendChild(staticValue);
+       }
 
-      settingsContainer.appendChild(settingsElement);
+       settingsContainer.appendChild(settingsElement);
    }
 
    return settingsContainer;
@@ -167,7 +184,7 @@ export function saveSettingsAsJSON(settings) {
 export function loadSettingsFromJSON(file) {
    return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      reader.onload = function(event) {
+      reader.onload = function (event) {
          try {
             const settings = JSON.parse(event.target.result);
             resolve(settings);
@@ -177,31 +194,4 @@ export function loadSettingsFromJSON(file) {
       };
       reader.readAsText(file);
    });
-}
-
-function changeVisualizationColorScheme() {
-
-}
-function changeAnimationStyle() {
-
-}
-
-function changeComplexityLevel() {
-
-}
-
-function changeSmoothing() {
-
-}
-
-function applyView() {
-
-}
-
-function createColorScheme() {
-
-}
-
-function changeSoundSource() {
-
 }

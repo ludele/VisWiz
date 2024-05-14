@@ -193,6 +193,12 @@ li:hover {
    right: 0;
 }
 
+.myCanvas {
+
+   align-items: center;
+
+}
+
 /* @media (max-width: 768px) {
    .left-menu,
    .right-menu {
