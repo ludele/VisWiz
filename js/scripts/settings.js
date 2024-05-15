@@ -1,3 +1,5 @@
+import * as main from "./main.js"
+
 export const visOptions = {
    // Default settings - changeable throughout run-time.
    // backgroundColor: 'rgb(0, 0, 0)',
@@ -58,13 +60,13 @@ export const visOptions = {
       step: 256
    },
    canvasWidth: {
-      value: 800,
+      value: 600,
       min: 100,
       max: 1920,
       step: 1
    },
    canvasHeight: {
-      value: 400,
+      value: 500,
       min: 100,
       max: 1080,
       step: 1
@@ -126,6 +128,22 @@ export function generateSettingsContent(settings) {
          input.onchange = function () {
             slider.value = input.value;
             settings[key].value = parseFloat(input.value);
+         };
+
+         slider.oninput = function () {
+            input.value = slider.value;
+            settings[key].value = parseFloat(slider.value);
+            if (key === 'canvasWidth' || key === 'canvasHeight') {
+               main.updateCanvasSize();
+            }
+         };
+
+         input.onchange = function () {
+            slider.value = input.value;
+            settings[key].value = parseFloat(input.value);
+            if (key === 'canvasWidth' || key === 'canvasHeight') {
+               main.updateCanvasSize();
+            }
          };
 
          settingsElement.appendChild(input);

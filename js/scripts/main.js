@@ -76,7 +76,7 @@ function visualizeAudio() {
     draw();
 }
 
-function updateCanvasSize() {
+export function updateCanvasSize() {
     const canvas = document.getElementById("myCanvas");
     canvas.width = options.visOptions.canvasWidth.value;
     canvas.height = options.visOptions.canvasHeight.value;
@@ -221,6 +221,8 @@ window.onresize = function () {
             menu.style.width = newWidth;
         }
     });
+
+    updateCanvasSize();
 };
 
 let selectedFile = null;
