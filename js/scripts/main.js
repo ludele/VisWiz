@@ -9,6 +9,10 @@ let startTime = 0;
 let currentOffset = 0;
 let animationId;
 
+
+/**
+ * A function that initalizes and starts to visualize the audio.
+ */
 function visualizeAudio() {
     if (!analyser) {
         analyser = audioContext.createAnalyser();
@@ -17,6 +21,10 @@ function visualizeAudio() {
     }
     const dataArray = new Uint8Array(analyser.frequencyBinCount);
 
+    /**
+     * Draws the visualizer
+     * @returns - bollean (stops the draw)
+     */
     function draw() {
         if (!isPlaying) return; // Stop drawing when not playing
 
@@ -76,12 +84,19 @@ function visualizeAudio() {
     draw();
 }
 
+/**
+ * Updates the canvas
+ */
 export function updateCanvasSize() {
     const canvas = document.getElementById("myCanvas");
     canvas.width = options.visOptions.canvasWidth.value;
     canvas.height = options.visOptions.canvasHeight.value;
 }
 
+
+/**
+ * Generates the canvas tag
+ */
 function generateCanvas() {
     const visualizationBox = document.getElementById("visualization");
     const canvas = document.createElement("canvas");
@@ -90,6 +105,11 @@ function generateCanvas() {
     updateCanvasSize();
 }
 
+/**
+ * Profiles for saved/loaded settings
+ * @param {*} profiles 
+ * @returns HTMLDivElement
+ */
 function generateProfileButtons(profiles) {
     const profilesContainer = document.createElement("div");
 
@@ -103,10 +123,19 @@ function generateProfileButtons(profiles) {
     return profilesContainer;
 }
 
+/**
+ * Load profile for settings
+ * @param {*} profile 
+ */
 function applyProfile(profile) {
     options.updateSettingsProfile(profile.settings);
 }
 
+/**
+ * 
+ * @param {*} parent 
+ * @param {*} id 
+ */
 function createFileUploadElement(parent, id) {
     let input = document.createElement("input");
     input.setAttribute("type", "file");
@@ -114,6 +143,9 @@ function createFileUploadElement(parent, id) {
     parent.appendChild(input);
 }
 
+/**
+ * 
+ */
 function createSettingsControls() {
     const settingsContainer = document.getElementById("settingsContainer");
     for (const [key, value] of Object.entries(options.visOptions)) {
@@ -157,6 +189,9 @@ function createSettingsControls() {
     }
 }
 
+/**
+ * 
+ */
 function createStructure() {
     generateCanvas();
 
@@ -213,6 +248,9 @@ function createStructure() {
 
 createStructure();
 
+/**
+ * 
+ */
 window.onresize = function () {
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
     const newWidth = isMobile ? "100%" : "15%";
@@ -227,6 +265,9 @@ window.onresize = function () {
 
 let selectedFile = null;
 
+/**
+ * 
+ */
 document.getElementById('audioFile').addEventListener('change', function (event) {
     selectedFile = event.target.files[0];
     if (!selectedFile) {
@@ -253,6 +294,9 @@ document.getElementById('audioFile').addEventListener('change', function (event)
     reader.readAsArrayBuffer(selectedFile);
 });
 
+/**
+ * 
+ */
 document.getElementById('playButton').addEventListener('click', function () {
     if (audioBuffer && audioContext) {
         if (!isPlaying) {
@@ -279,6 +323,11 @@ document.getElementById('seekSlider').addEventListener('input', function (event)
     }
 });
 
+
+/**
+ * 
+ * @param {*} offset 
+ */
 function startAudio(offset = 0) {
     if (isPlaying && audioSource) {
         audioSource.stop();

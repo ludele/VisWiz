@@ -1,8 +1,3 @@
-/**
- * - Will need to be further refined for options.
- * - This is a base example.
- * @param {AudioContext.createAnalyser} analyzer - To analyze the audio
- */
 
 export function generateVisualization(analyzer) {
    const canvas = document.getElementById('visualization');
