@@ -9,7 +9,6 @@ let startTime = 0;
 let currentOffset = 0;
 let animationId;
 
-
 /**
  * A function that initalizes and starts to visualize the audio.
  */
@@ -125,7 +124,7 @@ function generateProfileButtons(profiles) {
 
 /**
  * Load profile for settings
- * @param {*} profile 
+ * @param {*} profile - Profiles for loading presents and saves settings.
  */
 function applyProfile(profile) {
     options.updateSettingsProfile(profile.settings);
@@ -133,8 +132,8 @@ function applyProfile(profile) {
 
 /**
  * 
- * @param {*} parent 
- * @param {*} id 
+ * @param {*} parent - Container containing the file upload element
+ * @param {*} id - id of the file upload element
  */
 function createFileUploadElement(parent, id) {
     let input = document.createElement("input");
@@ -144,7 +143,7 @@ function createFileUploadElement(parent, id) {
 }
 
 /**
- * 
+ * Creates and maps the menu
  */
 function createSettingsControls() {
     const settingsContainer = document.getElementById("settingsContainer");
@@ -190,7 +189,7 @@ function createSettingsControls() {
 }
 
 /**
- * 
+ * Creates the whole structure of the elements that are not fully static.
  */
 function createStructure() {
     generateCanvas();
@@ -249,7 +248,8 @@ function createStructure() {
 createStructure();
 
 /**
- * 
+ * - Updates the UI on resize
+ * - Updates the canvas if a change in the UI is made
  */
 window.onresize = function () {
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
@@ -266,7 +266,7 @@ window.onresize = function () {
 let selectedFile = null;
 
 /**
- * 
+ * Loads the audio file. And triggers events for listening and analysis.
  */
 document.getElementById('audioFile').addEventListener('change', function (event) {
     selectedFile = event.target.files[0];
@@ -295,7 +295,7 @@ document.getElementById('audioFile').addEventListener('change', function (event)
 });
 
 /**
- * 
+ * Plays the audio
  */
 document.getElementById('playButton').addEventListener('click', function () {
     if (audioBuffer && audioContext) {
@@ -323,7 +323,6 @@ document.getElementById('seekSlider').addEventListener('input', function (event)
     }
 });
 
-
 /**
  * 
  * @param {*} offset 
@@ -345,6 +344,11 @@ function startAudio(offset = 0) {
     visualizeAudio();
 }
 
+/**
+ * - A function to pause the audio source
+ * - It makes sure to cancel both the animation
+ * - Calculates the difference between times.
+ */
 function pauseAudio() {
     if (audioSource) {
         audioSource.stop();
@@ -354,6 +358,9 @@ function pauseAudio() {
     cancelAnimationFrame(animationId);
 }
 
+/**
+ * Looping function to control and update second length of song.
+ */
 setInterval(function () {
     if (audioSource && isPlaying) {
         const currentTime = audioContext.currentTime - startTime;
