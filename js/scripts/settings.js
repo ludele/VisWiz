@@ -4,6 +4,16 @@ import * as main from "./main.js"
 
 /**
  * - The options to change/control the visualizer.
+ *    - Red, Blue, Green: Change the colors of the visualizer bars
+ *    - barWidth: The width of the visualization
+ *    - barSpacing: How far the bars are apart
+ *    - heightScale: The height of the visualization
+ *    - smoothingTimeConstant: Timed-updates of the visualizer
+ *       - Affects the smoothness.
+ *    - fftSize: Changes the density width of the frequenzies generated.
+ *       - A higher fftSize will show more detail and draw out the frequenzies on the canvas
+ *       - A lower will be more clustered.
+ *    - Canvas{Height}{Width}: Will change the canvas size.
  */
 export const visOptions = {
    // Default settings - changeable throughout run-time.
@@ -80,7 +90,8 @@ export const visOptions = {
 };
 
 /**
- * 
+ * - General settings for more site-specific values.
+ *    - Change the site's color-scheme 
  */
 export const generalSettings = {
    "Colors": "Change the Color Scheme of the page",
