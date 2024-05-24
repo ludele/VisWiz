@@ -1,16 +1,24 @@
+// main.js
+
 import * as options from "./settings.js";
 
+
+// Audio variables
 let audioContext;
 let audioBuffer;
 let audioSource;
 let analyser;
+
 let isPlaying = false;
 let startTime = 0;
 let currentOffset = 0;
+
 let animationId;
 
 /**
  * A function that initalizes and starts to visualize the audio.
+ * - Connects the analyser to the audio context.
+ * - Draws a visualizer
  */
 function visualizeAudio() {
     if (!analyser) {
@@ -45,6 +53,13 @@ function visualizeAudio() {
         animationId = requestAnimationFrame(draw);
     }
 
+    /**
+     * - Draws bars for the visualizer
+     * @param {*} ctx  - Context of the canvas
+     * @param {*} dataArray - Array of the amount of bars
+     * @param {*} WIDTH - Width of the bars
+     * @param {*} HEIGHT - Height of the bars
+     */
     function drawBars(ctx, dataArray, WIDTH, HEIGHT) {
         ctx.fillStyle = `rgb(${options.visOptions.Red.value}, ${options.visOptions.Green.value}, ${options.visOptions.Blue.value})`;
         const barWidth = options.visOptions.barWidth.value;
@@ -60,6 +75,14 @@ function visualizeAudio() {
     }
 
     let spectrogramData = [];
+
+    /**
+     * 
+     * @param {*} ctx - Context of the canvas
+     * @param {*} dataArray 
+     * @param {*} WIDTH
+     * @param {*} HEIGHT 
+     */
     function drawSpectrogram(ctx, dataArray, WIDTH, HEIGHT) {
         spectrogramData.push([...dataArray]);
         if (spectrogramData.length > HEIGHT) {
@@ -91,7 +114,6 @@ export function updateCanvasSize() {
     canvas.width = options.visOptions.canvasWidth.value;
     canvas.height = options.visOptions.canvasHeight.value;
 }
-
 
 /**
  * Generates the canvas tag
@@ -131,7 +153,6 @@ function applyProfile(profile) {
 }
 
 /**
- * 
  * @param {*} parent - Container containing the file upload element
  * @param {*} id - id of the file upload element
  */
@@ -180,6 +201,12 @@ function createSettingsControls() {
                 options.visOptions[key].value = Number(event.target.value);
                 if (analyser && (key === "fftSize" || key === "smoothingTimeConstant")) {
                     analyser[key] = options.visOptions[key].value;
+                }
+            });
+            input.addEventListener('input', (event) => {
+                options[key].value = Number(event.target.value);
+                if (key === 'canvasWidth' || key === 'canvasHeight') {
+                    main.updateCanvasSize();
                 }
             });
             settingsContainer.appendChild(label);

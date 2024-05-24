@@ -1,5 +1,10 @@
+// settings.js
+
 import * as main from "./main.js"
 
+/**
+ * - The options to change/control the visualizer.
+ */
 export const visOptions = {
    // Default settings - changeable throughout run-time.
    // backgroundColor: 'rgb(0, 0, 0)',
@@ -74,6 +79,9 @@ export const visOptions = {
 
 };
 
+/**
+ * 
+ */
 export const generalSettings = {
    "Colors": "Change the Color Scheme of the page",
    Red: {
@@ -96,6 +104,11 @@ export const generalSettings = {
    },
 }
 
+/**
+ * 
+ * @param {*} settings 
+ * @returns 
+ */
 export function generateSettingsContent(settings) {
    let settingsContainer = document.createElement("ul");
    settingsContainer.classList.add("box")
@@ -173,25 +186,49 @@ export function generateSettingsContent(settings) {
    return settingsContainer;
 }
 
+
+/**
+ * 
+ * @param {*} profiles 
+ */
 export function saveSettingsProfilesToLocalStorage(profiles) {
    localStorage.setItem('settingsProfiles', JSON.stringify(profiles));
 }
 
+/**
+ * 
+ * @returns 
+ */
 export function loadSettingsProfilesFromLocalStorage() {
    const profiles = localStorage.getItem('settingsProfiles');
    return profiles ? JSON.parse(profiles) : [];
 }
 
+/**
+ * 
+ * @param {*} profiles 
+ * @param {*} profile 
+ */
 export function addSettingsProfile(profiles, profile) {
    profiles.push(profile);
    saveSettingsProfilesToLocalStorage(profiles);
 }
 
+/**
+ * 
+ * @param {*} profiles 
+ * @param {*} profileId 
+ */
 export function removeSettingsProfile(profiles, profileId) {
    const updatedProfiles = profiles.filter(profile => profile.id !== profileId);
    saveSettingsProfilesToLocalStorage(updatedProfiles);
 }
 
+/**
+ * 
+ * @param {*} profiles 
+ * @param {*} updatedProfile 
+ */
 export function updateSettingsProfile(profiles, updatedProfile) {
    const index = profiles.findIndex(profile => profile.id === updatedProfile.id);
    if (index !== -1) {
@@ -200,6 +237,10 @@ export function updateSettingsProfile(profiles, updatedProfile) {
    }
 }
 
+/**
+ * 
+ * @param {*} settings 
+ */
 export function saveSettingsAsJSON(settings) {
    const settingsJSON = JSON.stringify(settings);
    const blob = new Blob([settingsJSON], { type: 'application/json' });
@@ -212,6 +253,9 @@ export function saveSettingsAsJSON(settings) {
    window.URL.revokeObjectURL(url);
 }
 
+/**
+ * Loads settings from a JSON-file.
+ */
 export function loadSettingsFromJSON(file) {
    return new Promise((resolve, reject) => {
       const reader = new FileReader();
