@@ -6,36 +6,35 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>VisWiz</title>
    <link rel="stylesheet" href="./css/main.css">
-   <script type="module" src="./js/scripts/main.js" defer></script>
+   <script type="module" src="./js/scripts/main.js"></script>
    <script src="./js/utils/menus.js" defer></script>
 </head>
 
 <body>
    <nav>
-      <nav>
-         <div class="left-menu" id="leftMenu"></div>
-         <div class="right-menu box" id="rightMenu">
-            <button class="close-btn" onclick="toggleSide('rightMenu')">✖</button>
-         </div>
+      <div class="left-menu" id="leftMenu"></div>
+      <div class="right-menu box" id="rightMenu">
+         <button class="close-btn" onclick="toggleSide('rightMenu')">✖</button>
+      </div>
 
-         <div class="bottom-menu" id="bottomMenu">
-            <div class="menu-content">
-               <!-- Menu content goes here -->
-            </div>
+      <div class="bottom-menu" id="bottomMenu">
+         <div class="menu-content">
+            <!-- Menu content goes here -->
          </div>
-         
-      </nav>
-      <main id="main">
-         <header>
-            <nav class="header-box">
-               <!-- <a class="a1" href="#" onclick="toggleSide('leftMenu')">☰</a> -->
-               <a class="a2" href="#" onclick="toggleSide('rightMenu')">Menu</a>
-            </nav>
-         </header>
-         <section class="box">
-            <div id="visualization"></div>
-         </section>
-      </main>
+      </div>
+
+   </nav>
+   <main id="main">
+      <header>
+         <nav class="header-box">
+            <!-- <a class="a1" href="#" onclick="toggleSide('leftMenu')">☰</a> -->
+            <a class="a2" href="#" onclick="toggleSide('rightMenu')">Menu</a>
+         </nav>
+      </header>
+      <div class="box">
+         <div id="visualization"></div>
+      </div>
+   </main>
 </body>
 
 </html>
