@@ -1,5 +1,3 @@
-<!-- For testing and structure--->
-<!-- test.html -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,13 +14,22 @@
    <nav>
       <nav>
          <div class="left-menu" id="leftMenu"></div>
-         <div class="right-menu" id="rightMenu"></div>
+         <div class="right-menu box" id="rightMenu">
+            <button class="close-btn" onclick="toggleSide('rightMenu')">✖</button>
+         </div>
+
+         <div class="bottom-menu" id="bottomMenu">
+            <div class="menu-content">
+               <!-- Menu content goes here -->
+            </div>
+         </div>
+         
       </nav>
       <main id="main">
          <header>
             <nav class="header-box">
-               <a class="a1" href="#" onclick="toggleSide('leftMenu')">☰</a>
-               <a class="a2" href="#" onclick="toggleSide('rightMenu')">☰</a>
+               <!-- <a class="a1" href="#" onclick="toggleSide('leftMenu')">☰</a> -->
+               <a class="a2" href="#" onclick="toggleSide('rightMenu')">Menu</a>
             </nav>
          </header>
          <section class="box">

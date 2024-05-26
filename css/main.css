@@ -90,7 +90,7 @@ label {
    text-align: left;
 }
 
-.menu {
+/* .menu {
    display: none;
    position: fixed;
    top: 50%;
@@ -101,7 +101,7 @@ label {
    padding: 20px;
    border-radius: 10px;
    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
-}
+} */
 
 .menu ul {
    list-style: none;
@@ -164,12 +164,6 @@ li {
 
 li:hover {
    background-color: #f0f0f0;
-}
-
-.destination {
-   color: #007bff;
-   font-style: italic;
-   margin-left: 10px;
 }
 
 /* Side navs */
@@ -242,6 +236,36 @@ li:hover {
    .sidenav a {
       color: #ffffff;
    }
+}
+
+@media (max-width: 768px) {
+   textarea,
+   .right-menu
+   {
+      width: 75%;
+      max-width: 90%;
+   }
+}
+
+.spacer {
+   height: 500px;
+   width: 100%; 
+}
+
+.close-btn {
+   position: absolute;
+   top: 0.5rem;
+   left: 0.5rem;
+   background: none;
+   border: none;
+   font-size: 1.5rem;
+   cursor: pointer;
+}
+
+#settingsContainer {
+   list-style-type: none; /* Remove bullet points */
+   padding: 0; /* Remove default padding */
+   margin: 0; /* Remove default margin */
 }
 
 /* Side navs */

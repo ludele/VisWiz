@@ -21,10 +21,10 @@ export const visOptions = {
    // barColor: function (barHeight) {
    //    return `rgb(${barHeight + 100}, 50, 50)`;
    // },
-   mode: {
-      value: 'bar',
-      options: ['bar', 'spectrogram']
-   },
+   // mode: {
+   //    value: 'bar',
+   //    options: ['bar', 'spectrogram']
+   // },
    Red: {
       value: 230,
       min: 0,
@@ -63,7 +63,7 @@ export const visOptions = {
       step: 0.1
    },
    smoothingTimeConstant: {
-      value: 0.85,
+      value: 0.86,
       min: 0.1,
       max: 0.99,
       step: 0.01
@@ -75,7 +75,7 @@ export const visOptions = {
       step: 256
    },
    canvasWidth: {
-      value: 600,
+      value: 835,
       min: 100,
       max: 1920,
       step: 1
@@ -93,106 +93,36 @@ export const visOptions = {
  * - General settings for more site-specific values.
  *    - Change the site's color-scheme 
  */
-export const generalSettings = {
-   "Colors": "Change the Color Scheme of the page",
-   Red: {
-      value: 230,
-      min: 0,
-      max: 255,
-      step: 1
-   },
-   Blue: {
-      value: 200,
-      min: 0,
-      max: 255,
-      step: 1
-   },
-   Green: {
-      value: 130,
-      min: 0,
-      max: 255,
-      step: 1
-   },
-}
+// export const generalSettings = {
+//    "Colors": "Change the Color Scheme of the page",
+//    Red: {
+//       value: 230,
+//       min: 0,
+//       max: 255,
+//       step: 1
+//    },
+//    Blue: {
+//       value: 200,
+//       min: 0,
+//       max: 255,
+//       step: 1
+//    },
+//    Green: {
+//       value: 130,
+//       min: 0,
+//       max: 255,
+//       step: 1
+//    },
+// }
 
 /**
  * 
  * @param {*} settings 
  * @returns 
  */
-export function generateSettingsContent(settings) {
+export function generateSettingsContent() {
    let settingsContainer = document.createElement("ul");
    settingsContainer.classList.add("box")
-
-   for (const key in settings) {
-      const setting = settings[key];
-      let settingsElement = document.createElement("li");
-      settingsElement.classList.add("box")
-      let label = document.createElement("label");
-      label.textContent = key + ": ";
-      settingsElement.appendChild(label);
-
-      if (typeof setting.value === 'number') {
-         let input = document.createElement("input");
-         input.type = "text";
-         input.value = setting.value;
-
-         let slider = document.createElement("input");
-         slider.type = "range";
-         slider.value = setting.value;
-         slider.min = setting.min;
-         slider.max = setting.max;
-         slider.step = setting.step;
-
-         slider.oninput = function () {
-            input.value = slider.value;
-            settings[key].value = parseFloat(slider.value);
-         };
-
-         input.onchange = function () {
-            slider.value = input.value;
-            settings[key].value = parseFloat(input.value);
-         };
-
-         slider.oninput = function () {
-            input.value = slider.value;
-            settings[key].value = parseFloat(slider.value);
-            if (key === 'canvasWidth' || key === 'canvasHeight') {
-               main.updateCanvasSize();
-            }
-         };
-
-         input.onchange = function () {
-            slider.value = input.value;
-            settings[key].value = parseFloat(input.value);
-            if (key === 'canvasWidth' || key === 'canvasHeight') {
-               main.updateCanvasSize();
-            }
-         };
-
-         settingsElement.appendChild(input);
-         settingsElement.appendChild(slider);
-      } else if (Array.isArray(setting.options)) {
-         let select = document.createElement("select");
-         setting.options.forEach(option => {
-            let optionElement = document.createElement("option");
-            optionElement.value = option;
-            optionElement.text = option;
-            select.appendChild(optionElement);
-         });
-         select.value = setting.value;
-         select.onchange = function () {
-            settings[key].value = select.value;
-         };
-         settingsElement.appendChild(select);
-      } else {
-         let staticValue = document.createElement("span");
-         staticValue.textContent = setting.toString();
-         settingsElement.appendChild(staticValue);
-      }
-
-      settingsContainer.appendChild(settingsElement);
-   }
 
    return settingsContainer;
 }

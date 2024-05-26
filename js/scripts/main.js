@@ -44,12 +44,13 @@ function visualizeAudio() {
 
         ctx.clearRect(0, 0, WIDTH, HEIGHT);
 
-        if (options.visOptions.mode.value === 'bar') {
-            drawBars(ctx, dataArray, WIDTH, HEIGHT);
-        } else if (options.visOptions.mode.value === 'spectrogram') {
-            drawSpectrogram(ctx, dataArray, WIDTH, HEIGHT);
-        }
+        // if (options.visOptions.mode.value === 'bar') {
+        //     drawBars(ctx, dataArray, WIDTH, HEIGHT);
+        // } else if (options.visOptions.mode.value === 'spectrogram') {
+        //     drawSpectrogram(ctx, dataArray, WIDTH, HEIGHT);
+        // }
 
+        drawBars(ctx, dataArray, WIDTH, HEIGHT);
         animationId = requestAnimationFrame(draw);
     }
 
@@ -163,57 +164,98 @@ function createFileUploadElement(parent, id) {
     parent.appendChild(input);
 }
 
-/**
- * Creates and maps the menu
- */
+function saveSettings() {
+    localStorage.setItem('visSettings', JSON.stringify(options.visOptions));
+}
+
+function loadSettings() {
+    const savedSettings = localStorage.getItem('visSettings');
+    if (savedSettings) {
+        const parsedSettings = JSON.parse(savedSettings);
+        for (const key in parsedSettings) {
+            if (options.visOptions[key]) {
+                options.visOptions[key].value = parsedSettings[key].value;
+            }
+        }
+    }
+}
+
 function createSettingsControls() {
     const settingsContainer = document.getElementById("settingsContainer");
-    for (const [key, value] of Object.entries(options.visOptions)) {
-        const label = document.createElement("label");
-        label.textContent = key;
-        const input = document.createElement("input");
+    const div = document.createElement("div");
+    settingsContainer.appendChild(div);
 
-        if (key === 'mode') {
-            input.type = "select";
-            input.id = key;
+    loadSettings();
+
+    for (const [key, setting] of Object.entries(options.visOptions)) {
+        const settingsElement = document.createElement("li");
+        settingsElement.classList.add("box");
+        const label = document.createElement("label");
+        label.textContent = key + ": ";
+        settingsElement.appendChild(label);
+
+        if (typeof setting.value === 'number') {
+            const input = document.createElement("input");
+            input.type = "text";
+            input.value = setting.value;
+
+            const slider = document.createElement("input");
+            slider.type = "range";
+            slider.value = setting.value;
+            slider.min = setting.min;
+            slider.max = setting.max;
+            slider.step = setting.step;
+
+            slider.oninput = function () {
+                input.value = slider.value;
+                options.visOptions[key].value = parseFloat(slider.value);
+                if (key === 'canvasWidth' || key === 'canvasHeight') {
+                    updateCanvasSize();
+                }
+                if (analyser && (key === "fftSize" || key === "smoothingTimeConstant")) {
+                    analyser[key] = options.visOptions[key].value;
+                }
+                saveSettings();
+            };
+
+            input.onchange = function () {
+                slider.value = input.value;
+                options.visOptions[key].value = parseFloat(input.value);
+                if (key === 'canvasWidth' || key === 'canvasHeight') {
+                    updateCanvasSize();
+                }
+                if (analyser && (key === "fftSize" || key === "smoothingTimeConstant")) {
+                    analyser[key] = options.visOptions[key].value;
+                }
+                saveSettings();
+            };
+
+            settingsElement.appendChild(input);
+            settingsElement.appendChild(slider);
+        } else if (Array.isArray(setting.options)) {
             const select = document.createElement("select");
-            value.options.forEach(option => {
+            setting.options.forEach(option => {
                 const optionElement = document.createElement("option");
                 optionElement.value = option;
                 optionElement.text = option;
                 select.appendChild(optionElement);
             });
-            select.value = value.value;
-            select.addEventListener("change", (event) => {
-                options.visOptions[key].value = event.target.value;
-            });
-            settingsContainer.appendChild(label);
-            settingsContainer.appendChild(select);
-            continue;
+            select.value = setting.value;
+            select.onchange = function () {
+                options.visOptions[key].value = select.value;
+                saveSettings();
+            };
+            settingsElement.appendChild(select);
         } else {
-            input.type = "range";
-            input.min = value.min;
-            input.max = value.max;
-            input.step = value.step;
-            input.value = value.value;
-            input.id = key;
-            input.addEventListener("input", (event) => {
-                options.visOptions[key].value = Number(event.target.value);
-                if (analyser && (key === "fftSize" || key === "smoothingTimeConstant")) {
-                    analyser[key] = options.visOptions[key].value;
-                }
-            });
-            input.addEventListener('input', (event) => {
-                options[key].value = Number(event.target.value);
-                if (key === 'canvasWidth' || key === 'canvasHeight') {
-                    main.updateCanvasSize();
-                }
-            });
-            settingsContainer.appendChild(label);
-            settingsContainer.appendChild(input);
+            const staticValue = document.createElement("span");
+            staticValue.textContent = setting.toString();
+            settingsElement.appendChild(staticValue);
         }
+
+        settingsContainer.appendChild(settingsElement);
     }
 }
+
 
 /**
  * Creates the whole structure of the elements that are not fully static.
@@ -250,13 +292,20 @@ function createStructure() {
     pauseButton.id = "pauseButton";
     container.appendChild(pauseButton);
 
+    const infoContainer = document.createElement("div")
+    infoContainer.classList.add("box");
+    container.appendChild(infoContainer);
+
     const durationLabel = document.createElement("span");
     durationLabel.id = "durationLabel";
-    container.appendChild(durationLabel);
+    infoContainer.appendChild(durationLabel);
+
+    const lineBreak = document.createElement("br");
+    infoContainer.appendChild(lineBreak);
 
     const currentTimeLabel = document.createElement("span");
     currentTimeLabel.id = "currentTimeLabel";
-    container.appendChild(currentTimeLabel);
+    infoContainer.appendChild(currentTimeLabel);
 
     const seekSlider = document.createElement("input");
     seekSlider.type = "range";
@@ -268,8 +317,10 @@ function createStructure() {
 
     const settingsContainer = document.createElement("div");
     settingsContainer.id = "settingsContainer";
+    settingsContainer.classList.add("box");
     rightMenu.appendChild(settingsContainer);
     createSettingsControls();
+
 }
 
 createStructure();
@@ -278,17 +329,38 @@ createStructure();
  * - Updates the UI on resize
  * - Updates the canvas if a change in the UI is made
  */
+// window.onresize = function () {
+//     const isMobile = window.matchMedia("(max-width: 768px)").matches;
+//     const newWidth = isMobile ? "100%" : "15%";
+//     document.querySelectorAll('.menu').forEach(menu => {
+//         if (menu.style.width !== '0') {
+//             menu.style.width = newWidth;
+//         }
+//     });
+
+//     updateCanvasSize();
+// };
+
+const MENU_OPEN_WIDTH = '29%';
+const MENU_CLOSE_WIDTH = '0';
+
 window.onresize = function () {
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
-    const newWidth = isMobile ? "100%" : "15%";
-    document.querySelectorAll('.menu').forEach(menu => {
-        if (menu.style.width !== '0') {
-            menu.style.width = newWidth;
+    const rightMenu = document.getElementById('rightMenu');
+
+    if (isMobile) {
+        if (rightMenu.style.width !== MENU_CLOSE_WIDTH && rightMenu.style.width !== '') {
+            rightMenu.style.width = '100%';
         }
-    });
+    } else {
+        if (rightMenu.style.width === '100%') {
+            rightMenu.style.width = MENU_OPEN_WIDTH;
+        }
+    }
 
     updateCanvasSize();
 };
+
 
 let selectedFile = null;
 
